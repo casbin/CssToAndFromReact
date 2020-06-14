@@ -104,6 +104,12 @@ export default class App extends React.Component<AppProps, AppState> {
             let transformed = transform(this.state.inputText);
 
             let result = JSON.stringify(transformed, null, shouldFormat ? 2 : 0);
+            // JSON.Stringify without quotes on properties?
+            // https://exceptionshub.com/json-stringify-without-quotes-on-properties.html
+            result = result.replace(/\"([^(\")"]+)\":/g,"$1:");
+            result = result.replace(/:\"/g,": \"");
+            result = result.replace(/\",/g,"\", ");
+            result = "{" + result + "}";
 
             this.trackTranslation(TRANSLATION_ACTIONS.FROM_CSS);
 
